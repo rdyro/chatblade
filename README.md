@@ -1,5 +1,9 @@
 <p align="center" style="font-size: 14px">
-⚠️⚠️⚠️Not an official (or unofficial) Google product. Lightly modified from the excellent <a href="https://github.com/npiv/chatblade">chatblade</a> project.⚠️⚠️⚠️
+⚠️⚠️⚠️
+<br>
+Not an official (or unofficial) Google product. Lightly modified from the excellent <a href="https://github.com/npiv/chatblade">chatblade</a> project.
+<br>
+⚠️⚠️⚠️
 </p>
 
 # Chatblade
