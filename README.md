@@ -1,8 +1,12 @@
+<p align="center" style="font-size: 14px">
+⚠️⚠️⚠️Not an official (or unofficial) Google product. Lightly modified from the excellent <a href="https://github.com/npiv/chatblade">chatblade</a> project.⚠️⚠️⚠️
+</p>
+
 # Chatblade
 
-## A CLI Swiss Army Knife for ChatGPT
+## A CLI Swiss Army Knife for Gemini
 
-Chatblade is a versatile command-line interface (CLI) tool designed to interact with Gemini. It accepts piped input, arguments, or both, and allows you to save common prompt preambles for quick usage. Additionally, Chatblade provides utility methods to extract JSON or Markdown from ChatGPT responses.
+Chatblade is a versatile command-line interface (CLI) tool designed to interact with Gemini. It accepts piped input, arguments, or both, and allows you to save common prompt preambles for quick usage. Additionally, Chatblade provides utility methods to extract JSON or Markdown from Gemini responses.
 
 **Note**: You'll need to set up your Gemini API key to use Chatblade.
 
@@ -83,7 +87,7 @@ Responses are parsed and if chatblade thinks its markdown it will be presented a
 
 In that case you have 2 options:
 
-- `-r` for raw, which just prints the text exactly as ChatGPT returned it, and doesn't pass it through Markdown.
+- `-r` for raw, which just prints the text exactly as Gemini returned it, and doesn't pass it through Markdown.
 - `-e` for extract, which will try to detect what was returned (either a code block or json) and extract only that part. If neither of those are found it does the same as `-r`
 
 Both options can be used either with a new query, e.g.
@@ -108,7 +112,7 @@ e.g.
 curl https://news.ycombinator.com/rss | chatblade given the above rss can you show me the top 3 articles about AI and their links -c 4
 ```
 
-The piped input is placed above the query and sent to ChatGPT.
+The piped input is placed above the query and sent to Gemini.
 
 <img src="assets/example3.png">
 
@@ -118,7 +122,7 @@ or
 chatblade what does this script do < script.sh
 ```
 
-What gets sent to ChatGPT over the wire is:
+What gets sent to Gemini over the wire is:
 
 ```
 piped input
@@ -220,7 +224,7 @@ usage: Chatblade [-h] [--api-key key] [--temperature t] [-c CHAT_GPT] [-i] [-s] 
                  [-S sess] [--session-list] [--session-path] [--session-dump] [--session-delete] [--session-rename newsess]
                  [query ...]
 
-a CLI Swiss Army Knife for ChatGPT
+a CLI Swiss Army Knife for Gemini
 
 positional arguments:
   query                            Query to send to chat GPT

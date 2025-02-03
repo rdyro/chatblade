@@ -9,7 +9,7 @@ description = "CLI Swiss Army Knife for Gemini"
 readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">=3.9"
-keywords = ["chatblade", "chatgpt", "cli", "python"]
+keywords = ["chatblade", "gemini", "cli", "python"]
 authors = [
     {name = "npiv", email = "npiv@example.com"},
 ]

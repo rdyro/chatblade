@@ -89,7 +89,7 @@ def extract_messages(messages, args):
 
 def format_latex(msg):
     # Replace code blocks and inline code with markers. Use null delimiters to
-    # hopefully avoid any overlap with anything chatgpt could ever output.
+    # hopefully avoid any overlap with anything gemini could ever output.
     code_block_pattern = re.compile(r"```[\w]*\n.*?\n```", re.DOTALL)
     code_blocks = re.findall(code_block_pattern, msg)
     msg = re.sub(code_block_pattern, "\0CODE_BLOCK\0", msg)
