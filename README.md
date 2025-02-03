@@ -2,11 +2,11 @@
 
 ## A CLI Swiss Army Knife for ChatGPT
 
-Chatblade is a versatile command-line interface (CLI) tool designed to interact with OpenAI's ChatGPT. It accepts piped input, arguments, or both, and allows you to save common prompt preambles for quick usage. Additionally, Chatblade provides utility methods to extract JSON or Markdown from ChatGPT responses.
+Chatblade is a versatile command-line interface (CLI) tool designed to interact with Gemini. It accepts piped input, arguments, or both, and allows you to save common prompt preambles for quick usage. Additionally, Chatblade provides utility methods to extract JSON or Markdown from ChatGPT responses.
 
-**Note**: You'll need to set up your OpenAI API key to use Chatblade.
+**Note**: You'll need to set up your Gemini API key to use Chatblade.
 
-You can do that by either passing `--openai-api-key KEY` or by setting an env variable `OPENAI_API_KEY` (recommended). The examples below all assume an env variable is set.
+You can do that by either passing `--api-key KEY` or by setting an env variable `GEMINI_API_KEY` (recommended). The examples below all assume an env variable is set.
 
 ## Install
 
@@ -168,7 +168,7 @@ This won't perform any action over the wire, and just calculates the tokens loca
 
 ### Use custom prompts (the system msg)
 
-The system message is used to instruct the model how to behave, see [OpenAI - Instructing Chat Models](https://platform.openai.com/docs/guides/chat/instructing-chat-models).
+The system message is used to instruct the model how to behave.
 
 These can be loaded with `-p`. For convenience any file we place under ~/.config/chatblade/ will be picked up by this command.
 
@@ -213,20 +213,10 @@ And since we asked for JSON, we can pipe our result to something else, e.g.:
 chatblade -l -e > toanki
 ```
 
-### Configuring for Azure OpenAI
-
-chatblade can be used with an Azure OpenAI endpoint, in which case in addition to the `OPENAI_API_KEY` you'll need to set the following environment variables:
-
-- `OPENAI_API_TYPE` :: Set to `azure`. As required by [openai-python](https://github.com/openai/openai-python)
-- `AZURE_OPENAI_ENDPOINT` :: URL to your cognitive services' endpoint, e.g. `https://eastus.api.cognitive.microsoft.com/`. Please note this is a *breaking change* introduced by `openai-python` and the previous environment variable name is `OPENAI_API_BASE`
-- `OPENAI_API_AZURE_ENGINE` :: name of your deployment in Azure, f.e. `my-gpt-35-turbo` (maps to a specific model)
-
-*Note*: that this will override any option for `-c 3.5` or `-c 4` which don't make sense in this case.
-
 ### Help
 
 ```
-usage: Chatblade [-h] [--openai-api-key key] [--openai-base-url key] [--temperature t] [-c CHAT_GPT] [-i] [-s] [-t] [--version] [-p name] [-e] [-r] [-n] [-o] [--theme theme] [-l]
+usage: Chatblade [-h] [--api-key key] [--temperature t] [-c CHAT_GPT] [-i] [-s] [-t] [--version] [-p name] [-e] [-r] [-n] [-o] [--theme theme] [-l]
                  [-S sess] [--session-list] [--session-path] [--session-dump] [--session-delete] [--session-rename newsess]
                  [query ...]
 
@@ -237,12 +227,9 @@ positional arguments:
 
 options:
   -h, --help                       show this help message and exit
-  --openai-api-key key             the OpenAI API key can also be set as env variable OPENAI_API_KEY
-  --openai-base-url key            A custom url to use the openAI against a local or custom model, eg ollama
-  --temperature t                  temperature (openai setting)
-  -c CHAT_GPT, --chat-gpt CHAT_GPT
-                                   chat GPT model use either the fully qualified model name, or 3.5 (gpt-3.5-turbo), 4 (gpt-4), 4t (gpt-4-turbo), 4o (gpt-4o), mini (gpt-4o-mini),
-                                   o1 (o1-preview), o1mini (o1-mini). Can also be set via env variable OPENAI_API_MODEL
+  --api-key key                    the Gemini API key can also be set as env variable GEMINI_API_KEY
+  --temperature t                  temperature
+  -m MODEL, --model MODEL
   -i, --interactive                start an interactive chat session. This will implicitly continue the conversation
   -s, --stream                     Stream the incoming text to the terminal
   -t, --tokens                     display what *would* be sent, how many tokens, and estimated costs

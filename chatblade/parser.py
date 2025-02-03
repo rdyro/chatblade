@@ -11,50 +11,32 @@ def get_piped_input():
     return None
 
 
-def get_openai_key(options):
-    if options["openai_api_key"]:
-        return options["openai_api_key"]
-    elif "OPENAI_API_KEY" in os.environ:
-        return os.environ["OPENAI_API_KEY"]
+def get_api_key(options):
+    if options["api_key"]:
+        return options["api_key"]
     else:
-        return None
+        return os.environ.get("GEMINI_API_KEY", None)
 
 
 # https://platform.openai.com/docs/models/continuous-model-upgrades
 model_mappings = {
-    "3.5": "gpt-3.5-turbo",
-    "4": "gpt-4",
-    "4t": "gpt-4-turbo",
-    "4o": "gpt-4o",
-    "mini": "gpt-4o-mini",
-    "o1": "o1-preview",
-    "o1mini": "o1-mini",
+    "flash-2.0": "gemini-2.0-flash-exp",
 }
 
-DEFAULT_MODEL = "mini"
+DEFAULT_MODEL = "gemini-2.0-flash-exp"
 
 
-def get_openai_model(options):
-    choice = options["chat_gpt"]
+def get_model(options):
+    choice = options["model"]
     if not choice:
-        if "OPENAI_API_MODEL" in os.environ:
-            choice = os.environ["OPENAI_API_MODEL"]
-        else:
-            choice = DEFAULT_MODEL
-
-    if choice in model_mappings:
-        return model_mappings[choice]
-    else:
-        return choice
+        return os.environ.get("GEMINI_API_MODEL", DEFAULT_MODEL)
+    return model_mappings.get(choice, choice)
 
 
 def get_theme(options):
     if options["theme"]:
         return options["theme"]
-    elif "CHATBLADE_THEME" in os.environ:
-        return os.environ["CHATBLADE_THEME"]
-    else:
-        return None
+    return os.environ.get("CHATBLADE_THEME", None)
 
 
 def extract_query(query):
@@ -76,11 +58,11 @@ def extract_query(query):
 
 def extract_options(options):
     options = vars(options)  # to map
-    options["openai_api_key"] = get_openai_key(options)
+    options["api_key"] = get_api_key(options)
     options["theme"] = get_theme(options)
-    options["model"] = get_openai_model(options)
+    options["model"] = get_model(options)
     del options["query"]
-    del options["chat_gpt"]
+    del options["model"]
     return utils.DotDict(options)
 
 
@@ -106,35 +88,29 @@ model_mappings_str = ", ".join(["%s (%s)" % e for e in model_mappings.items()])
 def parse(args):
     parser = argparse.ArgumentParser(
         "Chatblade",
-        description="a CLI Swiss Army Knife for ChatGPT",
+        description="a CLI Swiss Army Knife for Gemini",
         formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=35),
     )
     parser.add_argument("query", type=str, nargs="*", help="Query to send to chat GPT")
 
     parser.add_argument(
-        "--openai-api-key",
+        "--api-key",
         metavar="key",
         type=str,
-        help="the OpenAI API key can also be set as env variable OPENAI_API_KEY",
-    )
-    parser.add_argument(
-        "--openai-base-url",
-        metavar="key",
-        type=str,
-        help="A custom url to use the openAI against a local or custom model, eg ollama",
+        help="the Gemini API key can also be set as env variable GEMINI_API_KEY",
     )
     parser.add_argument(
         "--temperature",
         metavar="t",
         type=float,
-        help="temperature (openai setting)",
+        help="temperature",
         default=0.0,
     )
     parser.add_argument(
-        "-c",
-        "--chat-gpt",
-        help=f"""chat GPT model use either the fully qualified model name, or
-        {model_mappings_str}. Can also be set via env variable OPENAI_API_MODEL
+        "-m",
+        "--model",
+        help=f"""model to use either the fully qualified model name, or
+        {model_mappings_str}. Can also be set via env variable GEMINI_API_MODEL
         """,
         type=str,
     )

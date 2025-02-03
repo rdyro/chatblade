@@ -11,7 +11,7 @@ from . import printer, chat, utils, storage, errors, parser, session
 
 
 def fetch_and_cache(messages, params):
-    result = chat.query_chat_gpt(messages, params)
+    result = chat.query_chat(messages, params)
     if isinstance(result, types.GeneratorType):
         text = Text("")
         message = None
@@ -129,19 +129,7 @@ def do_session_op(sess, op, rename_to):
     return 0
 
 
-def migrate_old_cache_file_if_exists():
-    cache_path = storage.get_cache_path()
-    if os.path.isfile(cache_path):
-        try:
-            storage.migrate_to_session(utils.scratch_session)
-        except Exception as e:
-            printer.warn(f"failed to migrate old cache file: {e}")
-            return 1
-
-
 def cli():
-    migrate_old_cache_file_if_exists()
-
     query, params = parser.parse(sys.argv[1:])
     if params.session_op:
         ret = do_session_op(params.session, params.session_op, params.rename_to)

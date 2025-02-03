@@ -10,6 +10,7 @@ from rich.rule import Rule
 
 from chatblade import utils
 from pylatexenc.latex2text import LatexNodes2Text
+from .chat import MODEL_ROLE
 
 
 console = Console()
@@ -21,9 +22,9 @@ def warn(msg):
 
 def print_tokens(messages, token_stats, args):
     if args.only:
-      args.roles = ["assistant"]
+      args.roles = [MODEL_ROLE]
     else:
-      args.roles = ["user", "assistant", "system"]
+      args.roles = ["user", MODEL_ROLE, "system"]
     print_messages(messages, args)
     console.print()
     table = Table(title="tokens/costs")
@@ -45,9 +46,9 @@ def print_tokens(messages, token_stats, args):
 def print_messages(messages, args):
     if "roles" not in args:
       if args.only:
-        args.roles = ["assistant"]
+        args.roles = [MODEL_ROLE]
       else:
-        args.roles = ["user", "assistant"]
+        args.roles = ["user", MODEL_ROLE]
     if args.extract:
         extract_messages(messages, args)
     else:
@@ -56,7 +57,7 @@ def print_messages(messages, args):
                 print_message(message, args)
 
 
-COLORS = {"user": "blue", "assistant": "green", "system": "red"}
+COLORS = {"user": "blue", MODEL_ROLE: "green", "system": "red"}
 
 
 def print_message(message, args):

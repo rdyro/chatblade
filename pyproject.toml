@@ -1,3 +1,32 @@
 [build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
-requires = ["setuptools", "wheel"]
+
+[project]
+name = "chatblade"
+version = "0.7.0"
+description = "CLI Swiss Army Knife for Gemini"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.9"
+keywords = ["chatblade", "chatgpt", "cli", "python"]
+authors = [
+    {name = "npiv", email = "npiv@example.com"},
+]
+dependencies = [
+    "tiktoken>=0.8.0",
+    "rich",
+    "PyYAML>=6.0.1",
+    "platformdirs>=4.2.2",
+    "pylatexenc==2.10",
+]
+
+[project.urls]
+Homepage = "https://github.com/npiv/chatblade"
+Documentation = "https://github.com/npiv/chatblade"
+
+[project.scripts]
+chatblade = "chatblade.__main__:main"
+
+[tool.setuptools]
+packages = ["chatblade"]
