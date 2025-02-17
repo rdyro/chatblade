@@ -38,11 +38,8 @@ def start_repl(messages, params):
             exit()
 
         if not messages:
-            init_msgs = (
-                [storage.load_prompt_file(params.prompt_file)]
-                if params.prompt_file
-                else []
-            )
+            init_msgs = [storage.load_prompt_file(params.prompt_file)]
+            init_msgs = [x for x in init_msgs if x is not None]
             messages = chat.init_conversation(query, *init_msgs)
         else:
             messages.append(chat.Message("user", query))
@@ -65,11 +62,8 @@ def handle_input(query, params):
             messages.append(chat.Message("user", query))
     else:
         if query:
-            init_msgs = (
-                [storage.load_prompt_file(params.prompt_file)]
-                if params.prompt_file
-                else []
-            )
+            init_msgs = [storage.load_prompt_file(params.prompt_file)]
+            init_msgs = [x for x in init_msgs if x is not None]
             messages = chat.init_conversation(query, *init_msgs)
 
     if messages:

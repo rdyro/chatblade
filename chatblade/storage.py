@@ -9,6 +9,7 @@ import pickle
 import yaml
 import random
 import string
+from pathlib import Path
 
 from . import errors, chat
 
@@ -25,10 +26,10 @@ def get_cache_path(create=True):
     otherwise fallback to the platform recommended location and create the directory
     e.g. ~/Library/Caches/chatblade on osx
     """
-    os_cache_path = os.path.expanduser("~/.cache")
-    if not os.path.exists(os_cache_path):
-        os_cache_path = platformdirs.user_cache_dir(APP_NAME)
-        if not os.path.exists(os_cache_path):
+    os_cache_path = Path("~/.cache").expanduser()
+    if not os_cache_path.exists():
+        os_cache_path = Path(platformdirs.user_cache_dir(APP_NAME))
+        if not os_cache_path.exists():
             os.makedirs(os_cache_path)
 
     cache_path = os.path.join(os_cache_path, APP_NAME)
@@ -95,9 +96,14 @@ def load_prompt_file(prompt_name):
     Assumes the user created the ~/.config/chatblade/{prompt_name}
     or a file directly by path
     """
+    # try reading the default prompt
+    if prompt_name is None:
+        default_path = Path("~/.config/chatblade/default").expanduser()
+        return default_path.read_text() if default_path.is_file() else None
+
     paths_to_try = [
-        prompt_name,
-        os.path.expanduser(os.path.join("~/.config/chatblade", f"{prompt_name}")),
+        Path(prompt_name).expanduser().absolute(),
+        Path("~/.config/chatblade").expanduser() / f"{prompt_name}",
     ]
     try:
         for file_path in paths_to_try:
@@ -119,9 +125,7 @@ def load_prompt_config_legacy_yaml(prompt_name):
     load a prompt configuration by its name
     Assumes the user created the {name}.yaml in ~/.config/chatblade
     """
-    path = os.path.expanduser(
-        os.path.join("~/.config/chatblade", f"{prompt_name}.yaml")
-    )
+    path = (Path("~/.config/chatblade") / f"{prompt_name}.yaml").expanduser()
     try:
         with open(path, "r") as f:
             return yaml.load(f, Loader=yaml.FullLoader)["system"]

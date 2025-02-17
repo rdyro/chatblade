@@ -91,7 +91,7 @@ def parse(args):
         description="a CLI Swiss Army Knife for Gemini",
         formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=35),
     )
-    parser.add_argument("query", type=str, nargs="*", help="Query to send to chat GPT")
+    parser.add_argument("query", type=str, nargs="*", help="Query to send to Gemini")
 
     parser.add_argument(
         "--api-key",
@@ -142,7 +142,10 @@ def parse(args):
         "--prompt-file",
         metavar="name",
         type=str,
-        help="prompt name - will load the prompt with that name at ~/.config/chatblade/name or a path to a file",
+        help=(
+            "prompt name - will load the prompt with that name at ~/.config/chatblade/name or a path to a file."
+            ' It uses ~/.config/chatblade/default if no prompt is specified and the "default" file exists.'
+        ),
     )
 
     display_opts = parser.add_argument_group("result formatting options")
